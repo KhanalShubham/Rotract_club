@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Rotaract Red Palette */
+  --primary-color: #D32F2F; /* Deep, confident red */
+  --primary-hover: #B71C1C; /* Darker red for hover states */
+  --secondary-color: #FFEBEE; /* Light Rose for backgrounds */
+  --accent-color: #FFCDD2; /* Soft red accent */
+  
+  /* Neutrals */
+  --white: #ffffff;
+  --off-white: #f9f9f9;
+  --text-dark: #222222; /* Dark charcoal for headings */
+  --text-body: #444444; /* Slightly lighter for body text */
+  --text-light: #757575; /* Muted text */
+  --border-color: #e0e0e0;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 30px rgba(211, 47, 47, 0.15); /* Red-tinted shadow */
+
+  /* Spacing */
+  --section-spacing: 80px;
+  --container-width: 1200px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0066cc;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0052a3;
+}
+
+button:active {
+  background-color: #003d7a;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 10px;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
