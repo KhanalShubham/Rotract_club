@@ -14,8 +14,7 @@ import {
   FaMapMarkerAlt,
   FaClock,
   FaCheckCircle,
-  FaQuoteLeft,
-  FaLightbulb
+  FaQuoteLeft
 } from "react-icons/fa";
 import "./LandingPage.css";
 import logo from "../components/assets/logo.jpg";
