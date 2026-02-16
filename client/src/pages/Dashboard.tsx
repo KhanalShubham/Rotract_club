@@ -19,6 +19,16 @@ export default function Dashboard() {
               <p>Manage and create projects</p>
             </a>
 
+            <a href="/dashboard/manage-projects" style={styles.linkCard}>
+              <h3>✏️ Manage Content</h3>
+              <p>Add/Edit projects, events, blog posts</p>
+            </a>
+
+            <a href="/dashboard/settings" style={styles.linkCard}>
+              <h3>⚙️ Site Settings</h3>
+              <p>Leadership team & About Us</p>
+            </a>
+
             {isAdmin && (
               <>
                 <a href="/dashboard/users" style={styles.linkCard}>

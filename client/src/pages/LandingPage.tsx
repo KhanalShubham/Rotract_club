@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FaHeart,
-  FaHandHoldingHeart,
-  FaUsers,
   FaGlobe,
   FaArrowRight,
   FaTimes,
@@ -18,6 +15,8 @@ import {
 } from "react-icons/fa";
 import "./LandingPage.css";
 import logo from "../components/assets/logo.jpg";
+import { getProjects, Project, getSiteSettings, SiteSettings } from "../services/firestore";
+import { LeadershipCard } from "../components/LeadershipCard";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -25,37 +24,32 @@ export default function LandingPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lang, setLang] = useState<"EN" | "NE">("EN");
   const [filter, setFilter] = useState("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
-  const projects = [
-    {
-      title: "Free Health Camp",
-      category: "Health",
-      image: "https://via.placeholder.com/400x300?text=Health+Camp",
-      year: "2024",
-      summary: "Provided free checkups and medicine to over 500 villagers.",
-    },
-    {
-      title: "Walkathon for Mental Health",
-      category: "Awareness",
-      image: "https://via.placeholder.com/400x300?text=Walkathon",
-      year: "2023",
-      summary: "Raised awareness about mental well-being with 200+ participants.",
-    },
-    {
-      title: "Inter-School Futsal",
-      category: "Sports",
-      image: "https://via.placeholder.com/400x300?text=Futsal",
-      year: "2024",
-      summary: "Promoting youth fitness and teamwork through sports.",
-    },
-    {
-      title: "Stationery Distribution",
-      category: "Education",
-      image: "https://via.placeholder.com/400x300?text=Education",
-      year: "2023",
-      summary: "Supported 50 underprivileged students with school supplies.",
+  useEffect(() => {
+    loadProjects();
+    loadSettings();
+  }, []);
+
+  async function loadProjects() {
+    try {
+      const data = await getProjects();
+      setProjects(data);
+    } catch (error) {
+      console.error("Error loading projects:", error);
+      setProjects([]);
     }
-  ];
+  }
+
+  async function loadSettings() {
+    try {
+      const data = await getSiteSettings();
+      setSettings(data);
+    } catch (error) {
+      console.error("Error loading settings:", error);
+    }
+  }
 
   const filteredProjects = filter === "All" ? projects : projects.filter(p => p.category === filter);
 
@@ -145,32 +139,6 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* 3. Impact Metrics Strip */}
-      <section className="impact-section">
-        <div className="impact-grid">
-          <div className="impact-card">
-            <div className="impact-icon"><FaHandHoldingHeart /></div>
-            <h2>25+</h2>
-            <p>Projects Completed</p>
-          </div>
-          <div className="impact-card">
-            <div className="impact-icon"><FaUsers /></div>
-            <h2>1,200+</h2>
-            <p>People Reached</p>
-          </div>
-          <div className="impact-card">
-            <div className="impact-icon"><FaHeart /></div>
-            <h2>300+</h2>
-            <p>Blood Units Collected</p>
-          </div>
-          <div className="impact-card">
-            <div className="impact-icon"><FaGlobe /></div>
-            <h2>15+</h2>
-            <p>Awareness Campaigns</p>
-          </div>
-        </div>
-      </section>
-
       {/* 4. Featured Projects */}
       <section id="projects" className="section bg-light">
         <div className="section-header">
@@ -246,6 +214,52 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Leadership Team Section */}
+      {settings && (settings.presidentName || settings.vicePresidentName) && (
+        <section className="section">
+          <div className="section-header">
+            <h2 className="section-title">Our Leadership</h2>
+            <p>Meet the team leading Rotaract Club of Lamahi</p>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 60, flexWrap: 'wrap' }}>
+            {settings.presidentName && (
+              <LeadershipCard
+                name={settings.presidentName}
+                title={settings.presidentTitle}
+                image={settings.presidentImage}
+                bio={settings.presidentBio}
+                facebook={settings.presidentFacebook}
+                email={settings.presidentEmail}
+              />
+            )}
+
+            {settings.vicePresidentName && (
+              <LeadershipCard
+                name={settings.vicePresidentName}
+                title={settings.vicePresidentTitle}
+                image={settings.vicePresidentImage}
+                bio={settings.vicePresidentBio}
+                facebook={settings.vicePresidentFacebook}
+                email={settings.vicePresidentEmail}
+              />
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* About Us Section */}
+      {settings && settings.aboutUsContent && (
+        <section className="section bg-light">
+          <div className="section-header">
+            <h2 className="section-title">{settings.aboutUsTitle || "About Us"}</h2>
+          </div>
+          <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center', lineHeight: 1.8 }}>
+            <p style={{ fontSize: 16, color: '#555' }}>{settings.aboutUsContent}</p>
+          </div>
+        </section>
+      )}
 
       {/* 6. Upcoming Events */}
       <section id="events" className="section bg-light">

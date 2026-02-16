@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 import { getStoredUser } from "../utils/auth";
 
 export function Navbar() {
   const user = getStoredUser();
   const nav = useNavigate();
 
-  function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    nav("/login");
+  async function logout() {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("user");
+      nav("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   }
 
   return (

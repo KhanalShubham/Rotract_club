@@ -1,0 +1,274 @@
+.leadership-card {
+  position: relative;
+  text-align: center;
+  max-width: 300px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 60px 20px 20px;
+}
+
+.leadership-image-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 16px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.leadership-card:hover .leadership-image-container {
+  transform: scale(1.15);
+}
+
+.leadership-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #B71C1C;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.leadership-card:hover .leadership-image {
+  border-color: #8E0000;
+  box-shadow: 0 12px 30px rgba(183, 28, 28, 0.4);
+}
+
+/* Social Icons - Positioned Outside */
+.leadership-social-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.social-icon-wrapper {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: all;
+}
+
+.leadership-card:hover .social-icon-wrapper {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Facebook - Top Left */
+.social-icon-wrapper.facebook {
+  top: -20px;
+  left: -20px;
+  transition-delay: 0.1s;
+}
+
+/* Email - Top Right */
+.social-icon-wrapper.email {
+  top: -20px;
+  right: -20px;
+  transition-delay: 0.15s;
+}
+
+/* Know More - Bottom Center */
+.social-icon-wrapper.know-more {
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  transition-delay: 0.2s;
+}
+
+.leadership-card:hover .social-icon-wrapper.know-more {
+  transform: translateX(-50%) scale(1);
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #B71C1C, #8E0000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(183, 28, 28, 0.3);
+  position: relative;
+}
+
+.social-icon:hover {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(183, 28, 28, 0.5);
+}
+
+/* Curved Arrow SVG */
+.social-icon::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.leadership-card:hover .social-icon::before {
+  opacity: 0.3;
+}
+
+/* Facebook Arrow - Curves from icon to image */
+.social-icon-wrapper.facebook .social-icon::before {
+  top: 100%;
+  left: 100%;
+  border-right: 2px dashed #B71C1C;
+  border-bottom: 2px dashed #B71C1C;
+  border-bottom-right-radius: 20px;
+}
+
+/* Email Arrow */
+.social-icon-wrapper.email .social-icon::before {
+  top: 100%;
+  right: 100%;
+  border-left: 2px dashed #B71C1C;
+  border-bottom: 2px dashed #B71C1C;
+  border-bottom-left-radius: 20px;
+}
+
+.know-more-btn {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #B71C1C, #8E0000);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(183, 28, 28, 0.3);
+  white-space: nowrap;
+}
+
+.know-more-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(183, 28, 28, 0.5);
+}
+
+.leadership-name {
+  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.leadership-card:hover .leadership-name {
+  color: #B71C1C;
+}
+
+.leadership-title {
+  color: #B71C1C;
+  font-weight: 600;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+}
+
+.leadership-card:hover .leadership-title {
+  transform: scale(1.05);
+}
+
+/* Modal Styles */
+.leader-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.leader-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+  position: relative;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f5f5f5;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: #e0e0e0;
+}
+
+.modal-header {
+  text-align: center;
+  padding: 40px 30px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #B71C1C;
+  margin-bottom: 16px;
+}
+
+.modal-body {
+  padding: 30px;
+}
+
+.modal-bio {
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.modal-social {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
