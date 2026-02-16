@@ -287,7 +287,7 @@ const styles = {
   } as React.CSSProperties,
   btn: {
     padding: "10px 16px",
-    backgroundColor: "#0066cc",
+    backgroundColor: "#B71C1C",
     color: "white",
     border: "none",
     borderRadius: 4,
@@ -326,7 +326,7 @@ const styles = {
   } as React.CSSProperties,
   submitBtn: {
     padding: "12px 16px",
-    backgroundColor: "#0066cc",
+    backgroundColor: "#B71C1C",
     color: "white",
     border: "none",
     borderRadius: 4,

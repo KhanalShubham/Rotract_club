@@ -113,7 +113,7 @@ const styles = {
   title: {
     fontSize: 28,
     marginBottom: 8,
-    color: "#0066cc",
+    color: "#B71C1C",
   } as React.CSSProperties,
   subtitle: {
     color: "#666",
@@ -148,7 +148,7 @@ const styles = {
   } as React.CSSProperties,
   button: {
     padding: "12px 16px",
-    backgroundColor: "#0066cc",
+    backgroundColor: "#B71C1C",
     color: "white",
     border: "none",
     borderRadius: 4,

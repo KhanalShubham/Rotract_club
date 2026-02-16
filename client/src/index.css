@@ -6,8 +6,8 @@
 
 :root {
   /* Rotaract Red Palette */
-  --primary-color: #D32F2F; /* Deep, confident red */
-  --primary-hover: #B71C1C; /* Darker red for hover states */
+  --primary-color: #B71C1C; /* Darker red */
+  --primary-hover: #8E0000; /* Deep crimson for hover states */
   --secondary-color: #FFEBEE; /* Light Rose for backgrounds */
   --accent-color: #FFCDD2; /* Soft red accent */
   
@@ -22,7 +22,7 @@
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 30px rgba(211, 47, 47, 0.15); /* Red-tinted shadow */
+  --shadow-lg: 0 10px 30px rgba(183, 28, 28, 0.15); /* Red-tinted shadow */
 
   /* Spacing */
   --section-spacing: 80px;
@@ -57,15 +57,15 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(183, 28, 28, 0.1);
 }
 
 button {
   padding: 10px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #0066cc;
+  background-color: var(--primary-color);
   color: white;
   cursor: pointer;
   font-size: 14px;
@@ -74,15 +74,15 @@ button {
 }
 
 button:hover {
-  background-color: #0052a3;
+  background-color: var(--primary-hover);
 }
 
 button:active {
-  background-color: #003d7a;
+  background-color: #600000;
 }
 
 a {
-  color: #0066cc;
+  color: var(--primary-color);
   text-decoration: none;
 }
 

@@ -32,7 +32,7 @@ export function Navbar() {
 
 const styles = {
   navbar: {
-    backgroundColor: "#0066cc",
+    backgroundColor: "#B71C1C",
     color: "white",
     padding: "16px 0",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
@@ -58,7 +58,7 @@ const styles = {
   } as React.CSSProperties,
   logoutBtn: {
     backgroundColor: "white",
-    color: "#0066cc",
+    color: "#B71C1C",
     padding: "8px 12px",
     fontSize: 12,
   } as React.CSSProperties,
