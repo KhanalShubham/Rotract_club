@@ -5,11 +5,69 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  getDoc,
+  setDoc,
   query,
   orderBy,
+  where,
   Timestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
+
+// ============================================
+// APP USERS (role management)
+// ============================================
+
+export type UserRole = "SUPER_ADMIN" | "ADMIN" | "MEMBER";
+
+export interface AppUser {
+  uid: string;
+  email: string;
+  username: string;
+  role: UserRole;
+  createdAt?: Timestamp;
+  createdBy?: string; // uid of creator
+}
+
+export async function getUserByUid(uid: string): Promise<AppUser | null> {
+  const docRef = doc(db, "users", uid);
+  const snap = await getDoc(docRef);
+  if (!snap.exists()) return null;
+  return { uid: snap.id, ...snap.data() } as AppUser;
+}
+
+export async function getUsers(role?: UserRole): Promise<AppUser[]> {
+  let q;
+  if (role) {
+    q = query(collection(db, "users"), where("role", "==", role), orderBy("createdAt", "desc"));
+  } else {
+    q = query(collection(db, "users"), orderBy("createdAt", "desc"));
+  }
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) => ({ uid: d.id, ...d.data() } as AppUser));
+}
+
+export async function createUserRecord(uid: string, data: Omit<AppUser, "uid" | "createdAt">) {
+  await setDoc(doc(db, "users", uid), {
+    ...data,
+    createdAt: Timestamp.now(),
+  });
+}
+
+export async function updateUserRecord(uid: string, data: Partial<Omit<AppUser, "uid" | "createdAt">>) {
+  const docRef = doc(db, "users", uid);
+  await updateDoc(docRef, data);
+}
+
+export async function deleteUserRecord(uid: string) {
+  await deleteDoc(doc(db, "users", uid));
+}
+
+export async function superAdminExists(): Promise<boolean> {
+  const q = query(collection(db, "users"), where("role", "==", "SUPER_ADMIN"));
+  const snap = await getDocs(q);
+  return !snap.empty;
+}
 
 // ============================================
 // PROJECTS
@@ -55,6 +113,7 @@ export interface Event {
   id?: string;
   title: string;
   date: string;
+  image: string;
   location: string;
   description: string;
   createdAt?: Timestamp;

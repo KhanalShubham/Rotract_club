@@ -15,7 +15,14 @@ import {
 } from "react-icons/fa";
 import "./LandingPage.css";
 import logo from "../components/assets/logo.jpg";
-import { getProjects, Project, getSiteSettings, SiteSettings } from "../services/firestore";
+import { 
+  getProjects, 
+  Project, 
+  getSiteSettings, 
+  SiteSettings,
+  getEvents,
+  Event
+} from "../services/firestore";
 import { LeadershipCard } from "../components/LeadershipCard";
 
 export default function LandingPage() {
@@ -25,11 +32,13 @@ export default function LandingPage() {
   const [lang, setLang] = useState<"EN" | "NE">("EN");
   const [filter, setFilter] = useState("All");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
     loadProjects();
     loadSettings();
+    loadEvents();
   }, []);
 
   async function loadProjects() {
@@ -51,6 +60,25 @@ export default function LandingPage() {
     }
   }
 
+  async function loadEvents() {
+    try {
+      const data = await getEvents();
+      setEvents(data);
+    } catch (error) {
+      console.error("Error loading events:", error);
+      setEvents([]);
+    }
+  }
+
+  const formatEventDate = (dateStr: string) => {
+    if (!dateStr) return { day: "??", month: "???", time: "??:??" };
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('default', { month: 'short' }).toUpperCase();
+    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return { day, month, time };
+  };
+
   const filteredProjects = filter === "All" ? projects : projects.filter(p => p.category === filter);
 
   const handleScrollToSection = (id: string) => {
@@ -69,8 +97,6 @@ export default function LandingPage() {
           <div className="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
             <img src={logo} alt="Rotaract Club of Lamahi" className="logo-img" />
             <div className="logo-text">
-              <h3>Rotaract Lamahi Dang</h3>
-              <p>Sponsored by Rotary Club of Lamahi</p>
             </div>
           </div>
 
@@ -269,43 +295,40 @@ export default function LandingPage() {
         </div>
 
         <div className="events-grid">
-          {/* Paid Event */}
-          <div className="event-card">
-            <div className="event-date">
-              <span className="day">15</span>
-              <span className="month">AUG</span>
-            </div>
-            <div className="event-details">
-              <span className="badge-paid">Paid Entry</span>
-              <h3>Independence Day Marathon</h3>
-              <p><FaMapMarkerAlt /> Lamahi City Center</p>
-              <p><FaClock /> 06:00 AM</p>
-              <div className="paid-info">
-                <span className="fee">NPR 500</span>
-                <span className="payment-icons">eSewa / Khalti</span>
-              </div>
-              <button className="btn-primary-small">Register Now</button>
-            </div>
-          </div>
-
-          {/* Free Event */}
-          <div className="event-card">
-            <div className="event-date">
-              <span className="day">22</span>
-              <span className="month">SEP</span>
-            </div>
-            <div className="event-details">
-              <span className="badge-free">Free for All</span>
-              <h3>Blood Donation Camp</h3>
-              <p><FaMapMarkerAlt /> Rotary Hall, Lamahi</p>
-              <p><FaClock /> 10:00 AM - 4:00 PM</p>
-              <p className="note">Refreshments provided.</p>
-              <button className="btn-secondary-small">Join Event</button>
-            </div>
-          </div>
+          {events.length > 0 ? (
+            events.map((event, index) => {
+              const { day, month, time } = formatEventDate(event.date);
+              return (
+                <div key={index} className="event-card">
+                  {event.image && (
+                    <div className="event-img-container">
+                      <img src={event.image} alt={event.title} className="event-img" />
+                    </div>
+                  )}
+                  <div className="event-info-wrapper">
+                    <div className="event-date">
+                      <span className="day">{day}</span>
+                      <span className="month">{month}</span>
+                    </div>
+                    <div className="event-details">
+                      <span className="badge-free">All are Welcome</span>
+                      <h3>{event.title}</h3>
+                      <p><FaMapMarkerAlt /> {event.location}</p>
+                      <p><FaClock /> {time}</p>
+                      <p className="event-desc">{event.description}</p>
+                      <button className="btn-primary-small">View Details</button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p className="text-center text-muted">No upcoming events scheduled at the moment.</p>
+          )}
         </div>
         <p className="text-center mt-4 text-muted">Confirmation via email/SMS after registration.</p>
       </section>
+
 
       {/* 7. Donation / Support */}
       <section id="donate" className="section bg-red-gradient text-white">
